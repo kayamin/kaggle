@@ -91,7 +91,7 @@ FEATURE_WEIGHTS = {
 # dict lookup helper
 # 与えられた特徴の名前に対して，辞書に登録してある重みを返す
 def find_appropriate_weight(weights_dict, colname):
-    for col, weight in weights_dict.items(): #辞書のitems()メソッドで全ての key, value をたどる
+    for col, weight in weights_dict.items(): #辞書のitems()メソッドで全ての key(col), value(weight) をたどる
         if col in colname:  #各ダミー特徴には それぞれの元のキー名が先頭に付いているので，その文字列が含まれるかどうかで判断できる
             return weight
     raise ValueError #呼び出し元にエラーを返し処理を任せる
@@ -129,7 +129,7 @@ output = result_df.apply(get_top10_coupon_hashes_string, axis=1)
 
 
 output_df = pd.DataFrame(data={'USER_ID_hash': output.index,
-                               'PURCHASED_COUPONS': output.values})
+                               'PURCHASED_COUPONS': output.values}) # 列にラベル名を付ける
 output_df_all_users = pd.merge(user_list, output_df, how='left', on='USER_ID_hash')
 output_df_all_users.to_csv('cosine_sim_python.csv', header=True,
                            index=False, columns=['USER_ID_hash', 'PURCHASED_COUPONS'])
